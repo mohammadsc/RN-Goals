@@ -17,10 +17,8 @@ const InserGoal = (props) => {
     inputContainer: {
       flexDirection: "row",
       justifyContent: "flex-start",
-
       marginTop: 30,
       alignItems: "center",
-
       borderBottomWidth: 1,
       borderBottomColor: "#cccccc",
       flex: 1,
