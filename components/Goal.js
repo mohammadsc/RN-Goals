@@ -13,7 +13,7 @@ const Goal = (props) => {
       flexDirection: "row-reverse",
 
       backgroundColor: "#5e0acc",
-      padding: 8,
+
       margin: 8,
       borderRadius: 10,
     },
@@ -23,6 +23,7 @@ const Goal = (props) => {
       minWidth: "100%",
 
       marginLeft: 5,
+      padding: 20,
     },
   });
 

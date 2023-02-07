@@ -1,19 +1,38 @@
+import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import {
+  Button,
+  FlatList,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import Goal from "./Goal";
 import InserGoal from "./InsertGoal";
 
 const MainPage = () => {
   const [list, setList] = useState([]);
+  const [modalVisibility, setModalVisibility] = useState(false);
 
   const styles = StyleSheet.create({
     appContainer: {
       paddingTop: 30,
       paddingHorizontal: 16,
       flex: 1,
+      marginTop: 25,
     },
     listStyle: {
       flex: 5,
+      marginTop: 16,
+    },
+    addNew: {
+      justifyContent: "center",
+      flexDirection: "row",
+      padding: 20,
+    },
+    text: {
+      color: "blue",
     },
   });
 
@@ -23,6 +42,7 @@ const MainPage = () => {
       let arr = [...list];
       arr.push(obj);
       setList(arr);
+      setModalVisibility(false);
     }
   }
 
@@ -32,27 +52,49 @@ const MainPage = () => {
     });
   }
 
+  const closeModal = () => {
+    setModalVisibility(false);
+  };
+
   return (
-    <View style={styles.appContainer}>
-      <InserGoal handleAddGoal={handleAddGoal} />
-      <View style={styles.listStyle}>
-        <FlatList
-          data={list}
-          renderItem={(itemData) => {
-            return (
-              <Goal
-                text={itemData.item.value}
-                id={itemData.item.id}
-                handleRemove={handleRemove}
-              />
-            );
-          }}
-          keyExtractor={(item, index) => {
-            return item.id;
-          }}
-        />
+    <>
+      <StatusBar style="auto" />
+      <View style={styles.appContainer}>
+        {modalVisibility && (
+          <InserGoal
+            visible={modalVisibility}
+            handleAddGoal={handleAddGoal}
+            closeModal={closeModal}
+          />
+        )}
+
+        <Pressable
+          onPress={() => setModalVisibility(true)}
+          android_ripple={{ color: "#bac9f3" }}
+          style={styles.addNew}
+        >
+          <Text style={styles.text}>Add New Task</Text>
+        </Pressable>
+
+        <View style={styles.listStyle}>
+          <FlatList
+            data={list}
+            renderItem={(itemData) => {
+              return (
+                <Goal
+                  text={itemData.item.value}
+                  id={itemData.item.id}
+                  handleRemove={handleRemove}
+                />
+              );
+            }}
+            keyExtractor={(item, index) => {
+              return item.id;
+            }}
+          />
+        </View>
       </View>
-    </View>
+    </>
   );
 };
 
